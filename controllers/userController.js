@@ -330,16 +330,27 @@ exports.updateProfile = async (req, res) => {
         })
     }
     
-    await userModel.updateOne({_id}, {$set: {
-        full_name, birthday, city, sex, bio, image_url
-    }})
+    try {
+        await userModel.updateOne({_id}, {$set: {
+            full_name, birthday, city, sex, bio, image_url
+        }})
 
-    return res.status(200).json({
-        status: true,
-        data: {
-            message: "Profile updated successfully"
-        }
-    })
+        return res.status(200).json({
+            status: true,
+            data: {
+                message: "Profile updated successfully"
+            }
+        })
+    } catch (err) {
+        console.log(err)
+        return res.status(400).json({
+            status: false,
+            error: {
+                message: "An unknown error occured; retry later",
+                code: 400
+            }
+        })
+    }
 }
 
 // FOLLOW OTHER USERS
@@ -366,47 +377,58 @@ exports.follow = async (req, res) => {
         })
     }
 
-    let user = await userModel.findOne({_id}, {followings: 1})
-    let followings = []
-    user.followings.map(val => {
-        followings.push(val.user)
-    })
-    let toFollow
-    friend_list_to_add.map(value => {
-        if ( !followings.includes(value) ) { 
-            await userModel.updateOne(
-                {_id},
-                {
-                    $push: {
-                        followings: {
-                            user: value,
-                            timeFollowed: Date.now()
+    try {
+        let user = await userModel.findOne({_id}, {followings: 1})
+        let followings = []
+        user.followings.map(val => {
+            followings.push(val.user)
+        })
+
+        friend_list_to_add.map(value => {
+            if ( !followings.includes(value) ) { 
+                await userModel.updateOne(
+                    {_id},
+                    {
+                        $push: {
+                            followings: {
+                                user: value,
+                                timeFollowed: Date.now()
+                            }
                         }
                     }
-                }
-            ) // update user's followings list
+                ) // update user's followings list
 
-            await userModel.updateOne(
-                {_id: value},
-                {
-                    $push: {
-                        followers: {
-                            user: _id,
-                            timeFollowed: Date.now()
+                await userModel.updateOne(
+                    {_id: value},
+                    {
+                        $push: {
+                            followers: {
+                                user: _id,
+                                timeFollowed: Date.now()
+                            }
                         }
                     }
-                }
-            ) // update followers list for the followed user
-        }
+                ) // update followers list for the followed user
+            }
 
-    })
+        })
 
-    return res.status(200).json({
-        status: true,
-        data: {
-            message: "Following list updated"
-        }
-    })
+        return res.status(200).json({
+            status: true,
+            data: {
+                message: "Following list updated"
+            }
+        })
+    } catch (err){
+        console.log(err)
+        return res.status(400).json({
+            status: false,
+            error: {
+                message: "An unknown error occured; retry later",
+                code: 400
+            }
+        })
+    }
 }
 
 exports.getUserById = async (req, res) => {
@@ -433,6 +455,13 @@ exports.getUserById = async (req, res) => {
         })
     } catch ( err ) {
         console.log(err)
+        return res.status(400).json({
+            status: false,
+            error: {
+                message: "An unknown error occured; retry later",
+                code: 400
+            }
+        })
     }
 }
 

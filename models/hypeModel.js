@@ -21,6 +21,11 @@ const Hype = new mongoose.Schema({
         default: false
     },
 
+    active: {
+        type: Boolean,
+        default: true
+    },
+
     likes: [
         {
             likedBy: {
