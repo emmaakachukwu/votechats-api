@@ -43,6 +43,16 @@ const User = new mongoose.Schema({
         type: String
     },
 
+    updatedProfile: {
+        type: Boolean,
+        default: false
+    },
+
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+
     followings: [
         {
             user: {

@@ -9,8 +9,8 @@ const JWT_KEY = process.env.JWT_KEY
 // FOR SIGNUP
 module.exports.registerUser = async (req, res) => {
     let { email, username, password } = req.body
-    email = email.trim()
-    username = username.trim()
+    email = email ? email.trim() : null
+    username = username ? username.trim() : null
     if ( !username || !email || !password ) {
         return res.status(400).json({
             status: false,
@@ -98,7 +98,7 @@ module.exports.registerUser = async (req, res) => {
 // LOGIN
 module.exports.LoginUser = async (req, res) => {
     let { email, password } = req.body
-    email = email.trim()
+    email = email ? email.trim() : null
     if ( !email || !password ) {
         return res.status(400).json({
             status: false,
@@ -211,9 +211,9 @@ exports.recoverPassword = async (req, res) => {
 // RESET PASSWORD WITH OTP
 exports.resetPassword = async (req, res) => {
     let {email, code, new_password} = req.body
-    email = email.trim()
-    code = code.trim()
-    new_password = new_password.trim()
+    email = email ? email.trim() : null
+    code = code ? code.trim() : null
+    new_password = new_password ? new_password.trim() : null
     if ( !email ) {
         return res.status(403).json({
             status: false,
@@ -294,14 +294,14 @@ exports.resetPassword = async (req, res) => {
 
 // EDIT PROFILE
 exports.updateProfile = async (req, res) => {
-    let {_id, full_name, birthday, city, sex, bio, image_url} = req.body
-    _id = _id.trim()
-    full_name = full_name.trim()
-    birthday = birthday.trim()
-    city = city.trim()
-    sex = sex.trim()
-    bio = bio.trim()
-    image_url = image_url.trim()
+    const _id = req.params.user_id
+    let {full_name, birthday, city, sex, bio, image_url} = req.body
+    fullname = full_name ? full_name.trim() : null
+    birthday = birthday ? birthday.trim() : null
+    city = city ? city.trim() : null
+    sex = sex ? sex.trim() : null
+    bio = bio ? bio.trim() : null
+    image_url = image_url ? image_url.trim() : null
     if ( !_id ) {
         return res.status(403).json({
             status: false,
@@ -332,7 +332,7 @@ exports.updateProfile = async (req, res) => {
     
     try {
         await userModel.updateOne({_id}, {$set: {
-            full_name, birthday, city, sex, bio, image_url
+            full_name, birthday, city, sex, bio, image_url, updatedProfile: true
         }})
 
         return res.status(200).json({
@@ -355,9 +355,10 @@ exports.updateProfile = async (req, res) => {
 
 // FOLLOW OTHER USERS
 exports.follow = async (req, res) => {
-    const {_id, friend_list_to_add} = req.body
+    const _id = req.params.user_id
+    const {follow_list} = req.body
 
-    if ( !_id.trim() ) {
+    if ( !_id ) {
         return res.status(403).json({
             status: false,
             error: {
@@ -367,7 +368,7 @@ exports.follow = async (req, res) => {
         })
     }
 
-    if ( friend_list_to_add.constructor !== Array || !friend_list_to_add.length ) {
+    if ( !follow_list || follow_list.constructor !== Array || !follow_list.length ) {
         return res.status(403).json({
             status: false,
             error: {
@@ -384,7 +385,7 @@ exports.follow = async (req, res) => {
             followings.push(val.user)
         })
 
-        friend_list_to_add.map(value => {
+        follow_list.map(async value => {
             if ( !followings.includes(value) ) { 
                 await userModel.updateOne(
                     {_id},
@@ -432,7 +433,7 @@ exports.follow = async (req, res) => {
 }
 
 exports.getUserById = async (req, res) => {
-    const _id = req.params.id
+    const _id = req.params.user_id
     if ( !_id ) {
         return res.status(403).json({
             status: false,

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoteChats API Documentation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="my-5">
+            <h4>127.0.0.1:3000</h4>
+            <h6>url: 127.0.0.1:3000/api/v1</h6>
+            <p>Prefix all endpoints with <code>/api/v1</code></p>
+        </div>
+
+        <h6>User Routes</h6>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>#</th>
+                    <th>Route</th>
+                    <th>method</th>
+                    <th>Endpoint</th>
+                    <th>Params</th>
+                    <th>Description</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Signup</td>
+                        <td><code>POST</code></td>
+                        <td><code>/user/signup</code></td>
+                        <td><code>{"email": "user@example.com", "username": "abcde", password: "123456"}</code></td>
+                        <td>For user registration on the platform</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Login</td>
+                        <td><code>POST</code></td>
+                        <td><code>/user/login</code></td>
+                        <td><code>{"email": "user@example.com", password: "123456"}</code></td>
+                        <td>Sign into user account</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Recover Password</td>
+                        <td><code>POST</code></td>
+                        <td><code>/user/recoverpassword</code></td>
+                        <td><code>{"email": "user@example.com"}</code></td>
+                        <td>For user's account password recovery; OTP will be sent to email</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Reset Password</td>
+                        <td><code>POST</code></td>
+                        <td><code>/user/resetpassword</code></td>
+                        <td><code>{"email": "user@example.com", "code": "12345678", "new_password": "123456"}</code></td>
+                        <td>Reset password. Use OTP sent to email from <code>/recoverpassword</code></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Update Profile</td>
+                        <td><code>PATCH</code></td>
+                        <td><code>/user/updateprofile/{user_id}</code></td>
+                        <td><code>{"full_name": "Jack Robinson", "birthday": "12-12-1912", "city": "awka", "sex": "male", "bio": "i code", "image_url": "url_or_path_to_profilepic"}</code></td>
+                        <td>Update user's profile. Required params: <code>[full_name, birthday, city, sex]</code></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Follow other user(s)</td>
+                        <td><code>PATCH</code></td>
+                        <td><code>/user/follow/{user_id}</code></td>
+                        <td><code>{"follow_list": ["111111111111", "222222222222222"]}</code></td>
+                        <td>Follow other users on the platform</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>User Profile</td>
+                        <td><code>GET</code></td>
+                        <td><code>/user/{user_id}</code></td>
+                        <td><code>null</code></td>
+                        <td>Fetch user's data</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br><br>
+
+        <h6>Hype Routes</h6>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>#</th>
+                    <th>Route</th>
+                    <th>method</th>
+                    <th>Endpoint</th>
+                    <th>Params</th>
+                    <th>Description</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Make a Hype</td>
+                        <td><code>POST</code></td>
+                        <td><code>/hype</code></td>
+                        <td><code>{"user_id": "1212121231121231", "hype": "A hype body example here", img_urls: ["path_or_url_to_image1", "path_or_url_to_image2"]}</code></td>
+                        <td>To make a hype; <code>img_urls</code> is optional</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Edit a Hype</td>
+                        <td><code>PATCH</code></td>
+                        <td><code>/hype/edit/{hype_id}</code></td>
+                        <td><code>{"hype": "A hype body example being edited here", img_urls: ["path_or_url_to_image1", "path_or_url_to_image2"]}</code></td>
+                        <td>To edit a hype</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Get all Hypes for a user</td>
+                        <td><code>GET</code></td>
+                        <td><code>/hype/user/{user_id}</code></td>
+                        <td><code>null</code></td>
+                        <td>Fetches all hypes made by user</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,8 +2,8 @@ const hypeModel = require("./../models/hypeModel")
 
 // HYPING
 exports.hype = async (req, res) => {
-    const {_id, hype, img_urls} // _id represents the hyper's id
-    if ( !_id ) {
+    let {user_id, hype, image_urls} = req.body // _id represents the hyper's id
+    if ( !user_id ) {
         return res.status(403).json({
             status: false,
             error: {
@@ -13,7 +13,7 @@ exports.hype = async (req, res) => {
         })
     }
 
-    if ( img_urls ) {
+    if ( image_urls ) {
         if ( img_urls.constructor !== Array ) {
             return res.status(403).json({
                 status: false,
@@ -23,9 +23,11 @@ exports.hype = async (req, res) => {
                 }
             })
         }
+    } else {
+        image_urls = []
     }
 
-    if ( !hype.trim() ) {
+    if ( !hype || !hype.trim() ) {
         return res.status(403).json({
             status: false,
             error: {
@@ -37,7 +39,7 @@ exports.hype = async (req, res) => {
 
     try {
         let hyper = new hypeModel({
-            postedBy: _id, hype, img_urls
+            postedBy: user_id, hype, image_urls
         })
         hyper.save()
 
@@ -61,8 +63,8 @@ exports.hype = async (req, res) => {
 
 // EDIT HYPE
 exports.editHype = async (req, res) => {
-    const _id = req.params._id //_id represents hype id
-    const {hype, img_urls} = req.body
+    const _id = req.params.hype_id
+    let {hype, image_urls} = req.body
     if ( !_id ) {
         return res.status(403).json({
             status: false,
@@ -73,7 +75,7 @@ exports.editHype = async (req, res) => {
         })
     }
 
-    if ( img_urls ) {
+    if ( image_urls ) {
         if ( img_urls.constructor !== Array ) {
             return res.status(403).json({
                 status: false,
@@ -83,9 +85,11 @@ exports.editHype = async (req, res) => {
                 }
             })
         }
+    } else {
+        image_urls = []
     }
 
-    if ( !hype.trim() ) {
+    if ( !hype || !hype.trim() ) {
         return res.status(403).json({
             status: false,
             error: {
@@ -125,7 +129,7 @@ exports.editHype = async (req, res) => {
 
 // GET ALL HYPES BY USER
 exports.getAllHypesByUser = async (req, res) => {
-    const _id = req.params._id //_id represents user id
+    const _id = req.params.user_id
     if ( !_id ) {
         return res.status(403).json({
             status: false,
@@ -137,7 +141,7 @@ exports.getAllHypesByUser = async (req, res) => {
     }
 
     try {
-        let hypes = await hypeModel.find({_id, deleted: false, active: true})
+        let hypes = await hypeModel.find({postedBy: _id, deleted: false, active: true})
         return res.status(200).json({
             status: true,
             data: {

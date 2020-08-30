@@ -1,10 +1,12 @@
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
+const path = require("path");
 require("dotenv").config()
 
 // ROUTES
 const user = require("./routes/userRoute")
+const hype = require("./routes/hypeRoute")
 
 const DB_URL = process.env.DB_URL
 const PORT = 3000 || process.env.PORT
@@ -24,12 +26,14 @@ mongoose.connect(
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(express.static(path.join(__dirname, "views")))
 
 app.use("/api/v1/user", user)
+app.use("/api/v1/hype", hype)
 app.use( "/api/v1", (req, res) => {
-    res.send("<h1>Welcome to VoteChats")
+    res.sendFile(path.resolve(__dirname, "views", "doc.html"));
 })
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.redirect('/api/v1')
 })
 app.use('*', (req, res) => {
