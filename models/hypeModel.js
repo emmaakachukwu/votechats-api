@@ -26,14 +26,35 @@ const Hype = new mongoose.Schema({
         default: true
     },
 
-    likes: [
+    comments: [
         {
-            likedBy: {
+            commentedBy: {
                 type: mongoose.Schema.Types,
                 ref: 'user'
             },
 
-            timeLiked: {
+            comment: {
+                type: String
+            },
+
+            commentedAt: {
+                type: Date
+            }
+        }
+    ],
+
+    reactions: [
+        {
+            reactedBy: {
+                type: mongoose.Schema.Types,
+                ref: 'user'
+            },
+
+            rating: {
+                type: Number
+            },
+
+            reactedAt: {
                 type: Date
             }
         }

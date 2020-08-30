@@ -2,7 +2,7 @@ const hypeModel = require("./../models/hypeModel")
 
 // HYPING
 exports.hype = async (req, res) => {
-    let {user_id, hype, image_urls} = req.body // _id represents the hyper's id
+    let {user_id, hype, image_urls, is_draft} = req.body
     if ( !user_id ) {
         return res.status(403).json({
             status: false,
@@ -39,7 +39,7 @@ exports.hype = async (req, res) => {
 
     try {
         let hyper = new hypeModel({
-            postedBy: user_id, hype, image_urls
+            postedBy: user_id, hype, image_urls, active: !is_draft ? true : false
         })
         hyper.save()
 
@@ -160,3 +160,38 @@ exports.getAllHypesByUser = async (req, res) => {
         })
     }
 }
+
+// DELETE HYPE
+exports.deleteHype = async (req, res) => {
+    const _id = req.params.hype_id
+    if ( !_id ) {
+        return res.status(403).json({
+            status: false,
+            error: {
+                message: "Something went wrong..",
+                code: 403
+            }
+        })
+    }
+
+    try {
+        await hypeModel.updateOne({_id}, {$set: {deleted: true}})
+        return res.status(200).json({
+            status: true,
+            data: {
+                message: "Hypes retrieved",
+                hypes
+            }
+        })
+    } catch (err) {
+        console.log(err)
+        return res.status(400).json({
+            status: false,
+            error: {
+                message: "An unknown error occured; retry later",
+                code: 400
+            }
+        })
+    }
+}
+
