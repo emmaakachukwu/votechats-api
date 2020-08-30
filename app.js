@@ -9,7 +9,7 @@ const user = require("./routes/userRoute")
 const hype = require("./routes/hypeRoute")
 
 const DB_URL = process.env.DB_URL
-const PORT = 3000 || process.env.PORT
+const PORT = process.env.PORT
 mongoose.connect(
     DB_URL, {
         useNewUrlParser: true,
