@@ -1,8 +1,9 @@
-const jwt = require("jsonwebtoken");
-const bCrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken")
+const nodemailer = require("nodemailer")
+const bCrypt = require('bcryptjs')
 
 const userModel = require("./../models/userModel")
-const recoverModel = require("./../models/recoverModel");
+const recoverModel = require("./../models/recoverModel")
 
 const JWT_KEY = process.env.JWT_KEY
 
