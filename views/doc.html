@@ -14,15 +14,16 @@
             <p>Prefix all endpoints with <code>/api/v1</code></p>
         </div>
 
-        <h6>User Routes</h6>
+        <h2>User Routes</h2>
         <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
+            <table class="table table-striped table-bordered table-sm">
+                <thead class="thead-dark">
                     <th>#</th>
                     <th>Route</th>
                     <th>method</th>
                     <th>Endpoint</th>
                     <th>Params</th>
+                    <th>Required <span class="text-danger">*</span></th>
                     <th>Description</th>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@
                         <td><code>POST</code></td>
                         <td><code>/user/signup</code></td>
                         <td><code>{"email": "user@example.com", "username": "abcde", password: "123456"}</code></td>
+                        <td><code>email, username, password</code></td>
                         <td>For user registration on the platform</td>
                     </tr>
                     <tr>
@@ -40,6 +42,7 @@
                         <td><code>POST</code></td>
                         <td><code>/user/login</code></td>
                         <td><code>{"email": "user@example.com", password: "123456"}</code></td>
+                        <td><code>email, password</code></td>
                         <td>Sign into user account</td>
                     </tr>
                     <tr>
@@ -48,6 +51,7 @@
                         <td><code>POST</code></td>
                         <td><code>/user/recoverpassword</code></td>
                         <td><code>{"email": "user@example.com"}</code></td>
+                        <td><code>email</code></td>
                         <td>For user's account password recovery; OTP will be sent to email</td>
                     </tr>
                     <tr>
@@ -56,6 +60,7 @@
                         <td><code>POST</code></td>
                         <td><code>/user/resetpassword</code></td>
                         <td><code>{"email": "user@example.com", "code": "12345678", "new_password": "123456"}</code></td>
+                        <td><code>email, code, new_password</code></td>
                         <td>Reset password. Use OTP sent to email from <code>/recoverpassword</code></td>
                     </tr>
                     <tr>
@@ -64,7 +69,8 @@
                         <td><code>PATCH</code></td>
                         <td><code>/user/updateprofile/{user_id}</code></td>
                         <td><code>{"full_name": "Jack Robinson", "birthday": "12-12-1912", "city": "awka", "sex": "male", "bio": "i code", "image_url": "url_or_path_to_profilepic"}</code></td>
-                        <td>Update user's profile. Required params: <code>[full_name, birthday, city, sex]</code></td>
+                        <td><code>full_name, birthday, city, sex</code></td>
+                        <td>Update user's profile</td>
                     </tr>
                     <tr>
                         <td>6</td>
@@ -72,6 +78,7 @@
                         <td><code>PATCH</code></td>
                         <td><code>/user/follow/{user_id}</code></td>
                         <td><code>{"follow_list": ["111111111111", "222222222222222"]}</code></td>
+                        <td><code>follow_list <b>(must be an array)</b></code></td>
                         <td>Follow other users on the platform</td>
                     </tr>
                     <tr>
@@ -80,6 +87,7 @@
                         <td><code>GET</code></td>
                         <td><code>/user/{user_id}</code></td>
                         <td><code>null</code></td>
+                        <td><code>null</code></td>
                         <td>Fetch user's data</td>
                     </tr>
                 </tbody>
@@ -87,15 +95,16 @@
         </div>
         <br><br>
 
-        <h6>Hype Routes</h6>
+        <h2>Hype Routes</h2>
         <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
+            <table class="table table-striped table-bordered table-sm">
+                <thead class="thead-dark">
                     <th>#</th>
                     <th>Route</th>
                     <th>method</th>
                     <th>Endpoint</th>
                     <th>Params</th>
+                    <th>Required <span class="text-danger">*</span></th>
                     <th>Description</th>
                 </thead>
                 <tbody>
@@ -105,7 +114,8 @@
                         <td><code>POST</code></td>
                         <td><code>/hype</code></td>
                         <td><code>{"user_id": "1212121231121231", "hype": "A hype body example here", img_urls: ["path_or_url_to_image1", "path_or_url_to_image2"]}</code></td>
-                        <td>To make a hype; <code>img_urls</code> is optional</td>
+                        <td><code>user_id, hype</code></td>
+                        <td>To make a hype</td>
                     </tr>
                     <tr>
                         <td>2</td>
@@ -113,6 +123,7 @@
                         <td><code>PATCH</code></td>
                         <td><code>/hype/edit/{hype_id}</code></td>
                         <td><code>{"hype": "A hype body example being edited here", img_urls: ["path_or_url_to_image1", "path_or_url_to_image2"]}</code></td>
+                        <td><code>hype</code></td>
                         <td>To edit a hype</td>
                     </tr>
                     <tr>
@@ -121,11 +132,13 @@
                         <td><code>GET</code></td>
                         <td><code>/hype/user/{user_id}</code></td>
                         <td><code>null</code></td>
+                        <td><code>null</code></td>
                         <td>Fetches all hypes made by user</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <br><br>
     </div>
 </body>
 </html>
