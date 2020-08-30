@@ -104,22 +104,22 @@
                     <th>method</th>
                     <th>Endpoint</th>
                     <th>Params</th>
-                    <th>Required <span class="text-danger">*</span></th>
+                    <th><small>Required <span class="text-danger">*</span></small></th>
                     <th>Description</th>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Make a Hype</td>
+                        <td>Hype</td>
                         <td><code>POST</code></td>
                         <td><code>/hype</code></td>
-                        <td><code>{"user_id": "1212121231121231", "hype": "A hype body example here", img_urls: ["path_or_url_to_image1", "path_or_url_to_image2"]}</code></td>
+                        <td><code>{"user_id": "1212121231121231", "hype": "A hype body here", img_urls: ["path_or_url_to_image1", "path_to_img2"]}</code></td>
                         <td><code>user_id, hype</code></td>
                         <td>To make a hype</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>Edit a Hype</td>
+                        <td>Edit Hype</td>
                         <td><code>PATCH</code></td>
                         <td><code>/hype/edit/{hype_id}</code></td>
                         <td><code>{"hype": "A hype body example being edited here", img_urls: ["path_or_url_to_image1", "path_or_url_to_image2"]}</code></td>
@@ -128,7 +128,7 @@
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td>Get all Hypes for a user</td>
+                        <td>Get user's hypes</td>
                         <td><code>GET</code></td>
                         <td><code>/hype/user/{user_id}</code></td>
                         <td><code>null</code></td>
