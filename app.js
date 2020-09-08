@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
+const cors = require('cors')
 const path = require("path");
 require("dotenv").config()
 
@@ -24,6 +25,7 @@ mongoose.connect(
     err => console.log(err)
 )
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname, "views")))
